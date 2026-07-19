@@ -1,5 +1,5 @@
 from datetime import datetime
-
+import traceback
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status as http_status
@@ -45,9 +45,13 @@ def plan_trip(request):
         leg2 = get_route(pickup, dropoff)
     except RoutingError as exc:
         return Response({"error": str(exc)}, status=http_status.HTTP_400_BAD_REQUEST)
-    except Exception:
+    except Exception as exc:
+        traceback.print_exc()
         return Response(
-            {"error": "Could not reach the routing/geocoding service. Please try again."},
+            {
+                "error": str(exc),
+                "type": type(exc).__name__,
+            },
             status=http_status.HTTP_502_BAD_GATEWAY,
         )
 
