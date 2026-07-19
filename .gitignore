@@ -1,6 +1,6 @@
 # Python virtual environments
 venv/
 backend/venv/
-
+.gitignore
 # Node.js dependencies
 frontend/node_modules/
