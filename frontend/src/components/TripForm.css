@@ -1,0 +1,130 @@
+.trip-form {
+  background: var(--ink-navy-light);
+  border: 1px solid var(--steel);
+  border-radius: 10px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  position: relative;
+}
+
+.trip-form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--amber) 0 10px,
+    transparent 10px 20px
+  );
+  border-radius: 10px 10px 0 0;
+}
+
+.trip-form__ticket-no {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--steel-light);
+  text-transform: uppercase;
+}
+
+.trip-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  color: var(--steel-light);
+}
+
+.trip-form__field span {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+}
+
+.trip-form__field input {
+  background: var(--ink-navy);
+  border: 1px solid var(--steel);
+  border-radius: 6px;
+  padding: 0.6rem 0.7rem;
+  color: var(--off-white);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+}
+
+.trip-form__field input:focus {
+  border-color: var(--amber);
+}
+
+.trip-form__error {
+  background: rgba(178, 58, 46, 0.15);
+  border: 1px solid var(--alert-rust);
+  color: #ffd9d3;
+  padding: 0.5rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.trip-form__submit {
+  background: var(--amber);
+  color: var(--ink-navy);
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.trip-form__submit:hover:not(:disabled) {
+  background: var(--amber-dark);
+}
+
+.trip-form__submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.trip-form__assumptions {
+  margin: 0.25rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.72rem;
+  color: var(--steel-light);
+  line-height: 1.5;
+}
+
+.trip-form__manifest {
+  border: 1px solid var(--steel);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+}
+
+.trip-form__manifest summary {
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--amber);
+}
+
+.trip-form__manifest-hint {
+  font-size: 0.75rem;
+  color: var(--steel-light);
+  margin: 0.5rem 0;
+}
+
+.trip-form__manifest .trip-form__field {
+  margin-top: 0.6rem;
+}
