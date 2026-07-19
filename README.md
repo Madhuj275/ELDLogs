@@ -44,55 +44,7 @@ npm run dev
 Open `http://127.0.0.1:5173`. It calls the API at the URL in
 `VITE_API_BASE_URL` (see `.env.example`); defaults to `http://127.0.0.1:8000/api`.
 
-## Deploy
 
-**Backend (Render.com, free tier):**
-1. Push this repo to GitHub.
-2. New Web Service → point at `backend/` → Build command `./build.sh` →
-   Start command `gunicorn config.wsgi:application`.
-3. Set env vars: `DJANGO_DEBUG=False`, `DJANGO_ALLOWED_HOSTS=<your-render-domain>`,
-   `DJANGO_SECRET_KEY=<random string>`.
-
-**Frontend (Vercel):**
-1. Import the repo, set root directory to `frontend/`.
-2. Add env var `VITE_API_BASE_URL=https://<your-render-domain>/api`.
-3. Deploy (Vercel auto-detects the Vite build).
-
-Also update `CORS_ALLOW_ALL_ORIGINS` in `backend/config/settings.py` to a
-specific allow-list for production if you want to lock it down.
-
-## API
-`POST /api/trips/plan/`
-```json
-{
-  "current_location": "Green Bay, WI",
-  "pickup_location": "Fond du Lac, WI",
-  "dropoff_location": "Indianapolis, IN",
-  "current_cycle_used": 12,
-  "driver_name": "Y. Smith",
-  "driver_number": "1224213",
-  "driver_initials": "YS",
-  "co_driver": "NA",
-  "truck_number": "48872",
-  "trailer_number": "TA939200",
-  "carrier_name": "Schneider National Carriers, Inc.",
-  "home_terminal_address": "Green Bay, WI",
-  "shipper": "Don's Paper Co.",
-  "commodity": "Paper products",
-  "load_number": "ST13241564114"
-}
-```
-All the driver/vehicle/carrier/shipment fields are optional — leave them
-out and the log sheet header shows placeholders. When provided, they're
-echoed into `trip.manifest` and printed on every daily log sheet header,
-matching a standard J. J. Keller-style paper log (driver info, vehicle
-numbers, mileage today, carrier/home terminal, shipper/commodity/load,
-and a post-trip inspection block).
-
-Returns route geometry, stops, and `daily_logs` (one per calendar day of
-the trip, each with its own duty-status totals and `miles_today`) — each
-trip and its logs are also saved to the local SQLite DB (`GET /api/trips/`
-for history, `GET /api/trips/<id>/` for one trip).
 
 ## Notes / limitations
 - OSRM's public demo server and Nominatim are free but rate-limited —
