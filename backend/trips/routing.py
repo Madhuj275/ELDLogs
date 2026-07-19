@@ -12,9 +12,12 @@ Free routing/geocoding integrations.
 Both services are used server-side only.
 """
 import requests
+import os
 
 NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
 OSRM_URL = "https://router.project-osrm.org/route/v1/driving"
+GEOAPIFY_URL = "https://api.geoapify.com/v1/geocode/search"
+GEOAPIFY_API_KEY = os.getenv("GEOAPIFY_API_KEY")
 
 HEADERS = {
     "User-Agent": "ELDTripPlanner/1.0 (educational assessment project)"
@@ -28,23 +31,34 @@ class RoutingError(Exception):
     pass
 
 
-def geocode(location_text: str) -> dict:
-    """Return {"lat", "lon", "display_name"} for a free-text location."""
+def geocode(location_text: str):
     params = {
-        "q": location_text,
-        "format": "json",
+        "text": location_text,
+        "apiKey": GEOAPIFY_API_KEY,
         "limit": 1,
     }
-    resp = requests.get(NOMINATIM_URL, params=params, headers=HEADERS, timeout=15)
-    resp.raise_for_status()
-    results = resp.json()
-    if not results:
+
+    response = requests.get(
+        GEOAPIFY_URL,
+        params=params,
+        timeout=15,
+    )
+
+    response.raise_for_status()
+
+    data = response.json()
+
+    features = data.get("features", [])
+
+    if not features:
         raise RoutingError(f"Could not find location: {location_text}")
-    top = results[0]
+
+    point = features[0]
+
     return {
-        "lat": float(top["lat"]),
-        "lon": float(top["lon"]),
-        "display_name": top.get("display_name", location_text),
+        "lat": point["properties"]["lat"],
+        "lon": point["properties"]["lon"],
+        "display_name": point["properties"]["formatted"],
     }
 
 
